@@ -31,6 +31,7 @@ public class GroundState : State{
         isRight = Input.GetKey(KeyCode.D);
         isLeft = Input.GetKey(KeyCode.A);
         isJump = Input.GetKey(KeyCode.Space);
+        isHook = player.IsHook;
         
     }
 
@@ -58,6 +59,6 @@ public class GroundState : State{
 
     public override void Exit(){
         base.Exit();
-    }
-
+    }          
+    
 }

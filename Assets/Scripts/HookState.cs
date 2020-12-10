@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HookState : State{
+public class HookState : State
+{
 
 
     /*//Linea visual del pendulo
@@ -33,29 +34,63 @@ public class HookState : State{
     public GameObject hookGO;*/
 
 
+    private bool isGrounded = false;
+    private bool isHook = false;
+    public HookState(PlayerController player, StateMachine stateMachine) : base(player, stateMachine)
+    {
 
-    public HookState(PlayerController player, StateMachine stateMachine) : base(player, stateMachine){
-    
     }
 
-    public override void Enter(){
+    public override void Enter()
+    {
         base.Enter();
+        isGrounded = false;
+        isHook = false;
+        player.Hook();
     }
 
-    public override void HandleUpdate(){
-        
+    public override void HandleUpdate()
+    {
+
     }
 
-    public override void LogicUpdate(){
+    public override void LogicUpdate()
+    {
         //Condicionales
+
+        /* if (!isHook)
+         {
+             player.Fin = player.transform.position;
+             stateMachine.ChangeState(player.ground);
+         }*/
     }
 
-    public override void PhysicsUpdate(){
-        //Fisicas
-    }
-
-    public override void Exit(){
+    public override void PhysicsUpdate()
+    {
+       // Debug.Log(player.IsHook);
+        if ((player.Fin - player.transform.position).magnitude < 1.5f )
+        {
+            
+            isGrounded = player.isGrounded;
+            player.IsHookActived = false;
+            isHook = player.IsHook;
+            player.Fin = player.transform.position;
+            stateMachine.ChangeState(player.ground);
+            Debug.Log("soltar");
+            
+        }
+        else if (player.IsHookActived)
+        {
+            player.Hook();
+            Debug.Log(" subir");
+           // Debug.Log((player.Fin - player.transform.position).magnitude);
+        }
         
+    }
+
+    public override void Exit()
+    {
+
     }
 
 }
